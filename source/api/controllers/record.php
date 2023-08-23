@@ -1,20 +1,25 @@
 <?php
   require_once './api/http/request.php';
- class RecordController {
+  class RecordController {
 
-  public static function index(Request $request) {
+    public static function index(Request $request) {
+      $queryParams = $request->getQueryParams();
+      $deleted = isset($queryParams['deleted']) && $queryParams['deleted'] !== '' ? $queryParams['deleted'] : '';
+      $type = isset($queryParams['type']) && $queryParams['type'] !== '' ? $queryParams['type'] : '';
 
-    // echo '<pre>';
-    // print_r($request->getQueryParams());
-    // echo '</pre>';
-    // exit;
+      if($deleted !== '') { $conditions[] = 'deleted = :deleted'; }
+      if($type !== '') { $conditions[] = 'type = :type'; }
 
-    $db = Database::connect();
-    $stmt = $db->prepare('SELECT * FROM registros');
-    $stmt->execute();
-    $obj = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $sql = 'SELECT * FROM registros';
+      if (!empty($conditions)) { $sql .= ' WHERE ' . implode(' AND ', $conditions); }
 
-    return $obj;
+      $db = Database::connect();
+      $stmt = $db->prepare($sql);
+
+      if($deleted !== '') { $stmt->bindParam(':deleted', $deleted); }
+      if($type !== '') { $stmt->bindParam(':type', $type); }
+
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
   }
-
-}?>
