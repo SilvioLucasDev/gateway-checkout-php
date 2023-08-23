@@ -1,6 +1,6 @@
 <?php
-  require_once './api/http/request.php';
-  require_once './api/http/response.php';
+  require_once './app/http/request.php';
+  require_once './app/http/response.php';
 
   class Router {
     private string  $url;

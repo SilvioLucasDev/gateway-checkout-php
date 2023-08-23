@@ -1,5 +1,5 @@
 <?php
-  require_once './api/http/request.php';
+  require_once './app/http/request.php';
   class RecordController {
 
     public static function index(Request $request) {
