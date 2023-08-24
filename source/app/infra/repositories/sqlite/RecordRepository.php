@@ -2,6 +2,7 @@
 
 namespace App\infra\repositories\sqlite;
 
+use App\infra\exceptions\OperationException;
 use App\infra\repositories\sqlite\helpers\Connection;
 use App\models\Record;
 use DateTime;
@@ -14,6 +15,7 @@ class RecordRepository
   private ?array $clauses;
   private ?array $columns;
   private ?array $values;
+
   public function __construct()
   {
     $this->db = Connection::getInstance();
@@ -59,7 +61,7 @@ class RecordRepository
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function save(Record $record): bool
+  public function save(Record $record): string
   {
     foreach ($record as $param => $value) {
       if (isset($value)) {
@@ -77,18 +79,24 @@ class RecordRepository
     foreach ($this->bindings as $param => &$value) {
       $stmt->bindValue($param, $value);
     }
-    return $stmt->execute() ? true : false;
+    if (!$stmt->execute()) {
+      $this->throwException("Error registering!");
+    }
+    return "Registration successfully registered!";
   }
 
-  public function delete(int $id): bool
+  public function delete(int $id): string
   {
     $sql = 'DELETE FROM registros WHERE id = :id';
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
-    return $stmt->execute() ? true : false;
+    if (!$stmt->execute()) {
+      $this->throwException("Error deleting record!");
+    }
+    return "Record successfully deleted!";
   }
 
-  public function update(Record $record): bool
+  public function update(Record $record): string
   {
     foreach ($record as $param => $value) {
       if (isset($value) && $value !== '') {
@@ -102,7 +110,10 @@ class RecordRepository
     foreach ($this->bindings as $param => &$value) {
       $stmt->bindValue($param, $value);
     }
-    return $stmt->execute() ? true : false;
+    if (!$stmt->execute()) {
+      $this->throwException("Error updating record!");
+    }
+    return "Registration successfully updated!";
   }
 
   public function getLastInsertedId(): array
@@ -111,5 +122,9 @@ class RecordRepository
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  private function throwException(string $message):void {
+    throw new OperationException($message, 500);
   }
 }
