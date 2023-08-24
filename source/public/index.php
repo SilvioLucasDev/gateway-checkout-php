@@ -9,6 +9,6 @@ define('URL', 'http://localhost:8000/api');
 
 $objRouter = new Router(URL);
 
-include __DIR__ . '/../app/routes/record.php';
+include __DIR__ . '/../routes/record.php';
 
 $objRouter->run()->sendResponse();
