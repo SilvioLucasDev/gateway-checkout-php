@@ -4,7 +4,7 @@ namespace App\controllers;
 
 use App\http\Request;
 use App\models\Record;
-use App\repositories\RecordRepository;
+use App\infra\repositories\sqlite\RecordRepository;
 use Exception;
 
 class RecordController

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\db;
+namespace App\infra\repositories\sqlite\helpers;
 
 use PDO;
 use PDOException;

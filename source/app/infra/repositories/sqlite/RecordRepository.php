@@ -1,8 +1,8 @@
 <?php
 
-namespace App\repositories;
+namespace App\infra\repositories\sqlite;
 
-use App\db\Database;
+use App\infra\repositories\sqlite\helpers\Database;
 use App\models\Record;
 use PDO;
 
