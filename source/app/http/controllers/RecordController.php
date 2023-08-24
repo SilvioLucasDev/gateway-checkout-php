@@ -3,7 +3,7 @@
 namespace App\http\controllers;
 
 use App\http\config\Request;
-use App\http\exceptions\RequiredFieldError;
+use App\http\validations\RequiredValidation;
 use App\infra\repositories\sqlite\RecordRepository;
 use App\models\Record;
 
@@ -27,7 +27,7 @@ class RecordController
     $repository = new RecordRepository();
     $lastId = $repository->getLastInsertedId();
     $data = $request->getPostVars();
-    self::validate($data, ['type', 'message', 'is_identified']);
+    RequiredValidation::validate($data, ['type', 'message', 'is_identified']);
     $record = Record::create(
       $lastId['id'],
       $data['type'],
@@ -48,8 +48,7 @@ class RecordController
   public static function update(int $id, Request $request): string
   {
     $data = $request->getPostVars();
-
-    self::validate($data, ['type', 'message', 'is_identified', 'deleted']);
+    RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
     $record = Record::update(
       $id,
       $data['type'],
@@ -62,14 +61,5 @@ class RecordController
 
     $repository = new RecordRepository();
     return $repository->update($record);
-  }
-
-  private static function validate(array $data, array $requiredFields): void
-  {
-    foreach ($requiredFields as $field) {
-      if (!isset($data[$field])) {
-        throw new RequiredFieldError($field);
-      }
-    }
   }
 }
