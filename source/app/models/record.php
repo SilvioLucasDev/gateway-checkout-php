@@ -2,17 +2,19 @@
 
 namespace App\models;
 
+use DateTime;
+
 class Record
 {
   public function __construct(
-    readonly int    $id,
-    readonly string $type,
-    readonly string $message,
-    readonly int    $is_identified,
-    readonly ?string $whistleblower_name,
-    readonly ?string $whistleblower_birth,
-    readonly string $created_at,
-    readonly int    $deleted = 0
+    public int       $id,
+    public string    $type,
+    public string    $message,
+    public int       $is_identified,
+    public ?string   $whistleblower_name,
+    public ?string   $whistleblower_birth,
+    public ?DateTime $created_at,
+    public int       $deleted = 0
   ) {
   }
 
@@ -23,9 +25,9 @@ class Record
     int    $is_identified,
     ?string $whistleblower_name,
     ?string $whistleblower_birth
-  ) {
+  ): Record {
     $id = $id + 1;
-    $created_at = date('Y-m-d H:i:s');
+    $created_at = new DateTime();
     return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $created_at);
   }
 
@@ -34,10 +36,10 @@ class Record
     string $type,
     string $message,
     int    $is_identified,
-    string $whistleblower_name,
-    string $whistleblower_birth,
-    string $deleted
-  ) {
-    return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $deleted);
+    ?string $whistleblower_name,
+    ?string $whistleblower_birth,
+    int $deleted
+  ): Record {
+    return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, null, $deleted);
   }
 }

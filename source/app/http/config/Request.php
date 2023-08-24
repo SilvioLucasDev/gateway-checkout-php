@@ -14,12 +14,12 @@ class Request
   public function __construct(Router $router)
   {
     $this->router = $router;
-    $this->httpMethod = $_SERVER['REQUEST_METHOD'] ?? '';
-    $this->queryParams = $_GET ?? [];
+    $this->httpMethod = $_SERVER['REQUEST_METHOD'] ?? '';    $this->queryParams = $_GET ?? [];
     $this->postVars = $_POST ?? [];
     $this->headers = getallheaders();
     $this->setUri();
     $this->setPostVars();
+    $this->setQueryParams();
   }
 
   private function setUri(): void
@@ -32,6 +32,11 @@ class Request
   private function setPostVars(): void
   {
     $this->postVars = json_decode(file_get_contents('php://input'), true) ?? [];
+  }
+
+  private function setQueryParams(): void
+  {
+    $this->queryParams = array_slice($_GET, 1);
   }
 
   public function getRouter(): Router

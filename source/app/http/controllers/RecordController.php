@@ -58,14 +58,14 @@ class RecordController
   {
     $data = $request->getPostVars();
 
-    self::validate($data, ['type', 'message', 'is_identified', 'whistleblower_name', 'whistleblower_birth', 'deleted']);
+    self::validate($data, ['type', 'message', 'is_identified', 'deleted']);
     $record = Record::update(
       $id,
       $data['type'],
       $data['message'],
       $data['is_identified'],
-      $data['whistleblower_name'],
-      $data['whistleblower_birth'],
+      $data['whistleblower_name'] ?? null,
+      $data['whistleblower_birth'] ?? null,
       $data['deleted']
     );
 

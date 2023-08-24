@@ -4,29 +4,30 @@ namespace App\infra\repositories\sqlite;
 
 use App\infra\repositories\sqlite\helpers\Database;
 use App\models\Record;
+use DateTime;
 use PDO;
 
 class RecordRepository
 {
+  private ?array $bindings;
+  private ?array $clauses;
+  private ?array $columns;
+  private ?array $values;
 
   public function get(array $params): array
   {
-    $conditions = [];
-    $bindings = [];
-
-    if (isset($params['deleted']) && $params['deleted'] !== '') {
-      $conditions[] = 'deleted = :deleted';
-      $bindings[':deleted'] = $params['deleted'];
-    }
-
-    if (isset($params['type']) && $params['type'] !== '') {
-      $conditions[] = 'type = :type';
-      $bindings[':type'] = $params['type'];
+    foreach ($params as $param => $value) {
+      if (isset($value) && $value !== '') {
+        if ($param !== 'order_by' && $param !== 'limit' && $param !== 'offset') {
+          $this->bindings[":$param"] = $value;
+          $this->clauses[] = "$param = :$param";
+        }
+      }
     }
 
     $sql = 'SELECT * FROM registros';
-    if (!empty($conditions)) {
-      $sql .= ' WHERE ' . implode(' AND ', $conditions);
+    if (!empty($this->clauses)) {
+      $sql .= ' WHERE ' . implode(' AND ', $this->clauses);
     }
 
     if (isset($params['order_by']) && $params['order_by'] !== '') {
@@ -35,15 +36,16 @@ class RecordRepository
 
     if (isset($params['limit']) && is_numeric($params['limit'])) {
       $sql .= ' LIMIT ' . (int)$params['limit'];
-      if (isset($params['offset']) && is_numeric($params['offset'])) {
-        $sql .= ' OFFSET ' . (int)$params['offset'];
-      }
+    }
+
+    if (isset($params['offset']) && is_numeric($params['offset'])) {
+      $sql .= ' OFFSET ' . (int)$params['offset'];
     }
 
     $db = Database::connect();
     $stmt = $db->prepare($sql);
 
-    foreach ($bindings as $param => &$value) {
+    foreach ($this->bindings as $param => &$value) {
       $stmt->bindParam($param, $value);
     }
 
@@ -66,20 +68,27 @@ class RecordRepository
 
   public function save(Record $record): bool
   {
-    $sql = 'INSERT INTO registros (id, type, message, is_identified, whistleblower_name, whistleblower_birth, created_at, deleted)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    foreach ($record as $param => $value) {
+      if (isset($value)) {
+        if ($value instanceof DateTime) {
+          $this->bindings[":$param"] = $value->format('Y-m-d H:i:s');
+        } else {
+          $this->bindings[":$param"] = $value;
+        }
+        $this->columns[] = $param;
+        $this->values[] = ":$param";
+      }
+    }
+
+    $sql = 'INSERT INTO registros (' . implode(', ', $this->columns) . ')
+            VALUES (' . implode(', ', $this->values) . ')';
 
     $db = Database::connect();
     $stmt = $db->prepare($sql);
 
-    $stmt->bindValue(1, $record->id);
-    $stmt->bindValue(2, $record->type);
-    $stmt->bindValue(3, $record->message);
-    $stmt->bindValue(4, $record->is_identified, PDO::PARAM_INT);
-    $stmt->bindValue(5, $record->whistleblower_name);
-    $stmt->bindValue(6, $record->whistleblower_birth);
-    $stmt->bindValue(7, $record->created_at);
-    $stmt->bindValue(8, $record->deleted, PDO::PARAM_INT);
+    foreach ($this->bindings as $param => &$value) {
+      $stmt->bindValue($param, $value);
+    }
 
     return $stmt->execute() ? true : false;
   }
@@ -98,25 +107,22 @@ class RecordRepository
 
   public function update(Record $record): bool
   {
-    $sql = 'UPDATE registros SET
-            type = :type,
-            message = :message,
-            is_identified = :is_identified,
-            whistleblower_name = :whistleblower_name,
-            whistleblower_birth = :whistleblower_birth,
-            deleted = :deleted
-            WHERE id = :id';
+    foreach ($record as $param => $value) {
+      if (isset($value)) {
+        $this->bindings[":$param"] = $value;
+        $this->clauses[] = "$param = :$param";
+      }
+    }
+
+    $sql = 'UPDATE registros SET ';
+    $sql .= implode(', ', $this->clauses) . ' WHERE id = :id';
 
     $db = Database::connect();
     $stmt = $db->prepare($sql);
 
-    $stmt->bindValue(':id', $record->id);
-    $stmt->bindValue(':type', $record->type);
-    $stmt->bindValue(':message', $record->message);
-    $stmt->bindValue(':is_identified', $record->is_identified);
-    $stmt->bindValue(':whistleblower_name', $record->whistleblower_name);
-    $stmt->bindValue(':whistleblower_birth', $record->whistleblower_birth);
-    $stmt->bindValue(':deleted', $record->deleted);
+    foreach ($this->bindings as $param => &$value) {
+      $stmt->bindValue($param, $value);
+    }
 
     return $stmt->execute() ? true : false;
   }
