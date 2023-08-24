@@ -13,7 +13,7 @@ class RecordController
     return $repository->getAll($queryParams);
   }
 
-  public static function show($id)
+  public static function show(int $id)
   {
     $repository = new RecordRepository();
     return $repository->get($id);
@@ -39,7 +39,17 @@ class RecordController
     if(!$result) {
       throw new Exception("Erro ao cadastrar registro", 500);
     }
-
     return "Registro cadastrado com sucesso!";
+  }
+
+  public static function destroy(int $id)
+  {
+    $repository = new RecordRepository();
+    $result =  $repository->delete($id);
+
+    if(!$result) {
+      throw new Exception("Erro ao deletar registro", 500);
+    }
+    return "Registro deletado com sucesso!";
   }
 }
