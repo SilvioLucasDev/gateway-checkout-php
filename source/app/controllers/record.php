@@ -50,6 +50,29 @@ class RecordController
     return "Registro deletado com sucesso!";
   }
 
+  public static function update(int $id, Request $request)
+  {
+    $data = $request->getPostVars();
+
+    self::validate($data, ['type', 'message', 'is_identified', 'whistleblower_name', 'whistleblower_birth', 'deleted']);
+    $record = Record::update(
+      $id,
+      $data['type'],
+      $data['message'],
+      $data['is_identified'],
+      $data['whistleblower_name'],
+      $data['whistleblower_birth'],
+      $data['deleted']
+    );
+
+    $repository = new RecordRepository();
+    $result =  $repository->update($record);
+    if (!$result) {
+      throw new Exception("Erro ao atualizar o registro", 500);
+    }
+    return "Registro atualizado com sucesso!";
+  }
+
   private static function validate(array $data, array $requiredFields)
   {
     foreach ($requiredFields as $field) {
