@@ -24,19 +24,17 @@ class RecordController
     $repository = new RecordRepository();
     $lastId = $repository->lastId();
     $data = $request->getPostVars();
-
+    self::validate($data, ['type', 'message', 'is_identified']);
     $record = Record::create(
       $lastId['id'],
       $data['type'],
       $data['message'],
       $data['is_identified'],
-      $data['whistleblower_name'],
-      $data['whistleblower_birth']
+      $data['whistleblower_name'] ?? null,
+      $data['whistleblower_birth'] ?? null
     );
-
     $result =  $repository->save($record);
-
-    if(!$result) {
+    if (!$result) {
       throw new Exception("Erro ao cadastrar registro", 500);
     }
     return "Registro cadastrado com sucesso!";
@@ -46,10 +44,18 @@ class RecordController
   {
     $repository = new RecordRepository();
     $result =  $repository->delete($id);
-
-    if(!$result) {
+    if (!$result) {
       throw new Exception("Erro ao deletar registro", 500);
     }
     return "Registro deletado com sucesso!";
+  }
+
+  private static function validate(array $data, array $requiredFields)
+  {
+    foreach ($requiredFields as $field) {
+      if (!isset($data[$field])) {
+        throw new Exception("Campo '$field' é obrigatório", 400);
+      }
+    }
   }
 }

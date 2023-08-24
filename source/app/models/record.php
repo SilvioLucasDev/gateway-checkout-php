@@ -6,8 +6,8 @@ class Record
     readonly string $type,
     readonly string $message,
     readonly int    $is_identified,
-    readonly string $whistleblower_name,
-    readonly string $whistleblower_birth,
+    readonly ?string $whistleblower_name,
+    readonly ?string $whistleblower_birth,
     readonly string $created_at,
     readonly int    $deleted = 0
   ) {}
@@ -17,8 +17,8 @@ class Record
         string $type,
         string $message,
         int    $is_identified,
-        string $whistleblower_name,
-        string $whistleblower_birth
+        ?string $whistleblower_name,
+        ?string $whistleblower_birth
     ) {
         $id = $id + 1;
         $created_at = date('Y-m-d H:i:s');
