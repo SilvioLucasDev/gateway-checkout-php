@@ -1,6 +1,7 @@
 <?php
 require_once './app/http/request.php';
 require_once './app/repository/record.php';
+require_once './app/models/record.php';
 
 class RecordController
 {
@@ -16,5 +17,29 @@ class RecordController
   {
     $repository = new RecordRepository();
     return $repository->get($id);
+  }
+
+  public static function store(Request $request)
+  {
+    $repository = new RecordRepository();
+    $lastId = $repository->lastId();
+    $data = $request->getPostVars();
+
+    $record = Record::create(
+      $lastId['id'],
+      $data['type'],
+      $data['message'],
+      $data['is_identified'],
+      $data['whistleblower_name'],
+      $data['whistleblower_birth']
+    );
+
+    $result =  $repository->save($record);
+
+    if(!$result) {
+      throw new Exception("Erro ao cadastrar registro", 500);
+    }
+
+    return "Registro cadastrado com sucesso!";
   }
 }
