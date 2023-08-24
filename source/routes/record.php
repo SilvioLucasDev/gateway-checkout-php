@@ -1,7 +1,7 @@
 <?php
 
-use App\controllers\RecordController;
-use App\http\Response;
+use App\http\config\Response;
+use App\http\controllers\RecordController;
 
 $objRouter->get('/registros', [
   function ($request) {

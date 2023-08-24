@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http;
+namespace App\http\config;
 
 use Closure;
 use Exception;

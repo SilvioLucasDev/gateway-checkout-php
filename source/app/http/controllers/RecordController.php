@@ -1,10 +1,10 @@
 <?php
 
-namespace App\controllers;
+namespace App\http\controllers;
 
-use App\http\Request;
-use App\models\Record;
+use App\http\config\Request;
 use App\infra\repositories\sqlite\RecordRepository;
+use App\models\Record;
 use Exception;
 
 class RecordController

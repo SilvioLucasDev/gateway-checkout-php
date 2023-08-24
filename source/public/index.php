@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use \App\http\Router;
+use App\http\config\Router;
 
 date_default_timezone_set('America/Sao_Paulo');
 define('URL', 'http://localhost:8000/api');
