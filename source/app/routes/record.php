@@ -13,3 +13,9 @@ $objRouter->get('/registro/{id}', [
     return  new Response('200', RecordController::show($id));
   }
 ]);
+
+$objRouter->post('/registro', [
+  function($request){
+    return  new Response('200', RecordController::store($request));
+  }
+]);
