@@ -3,7 +3,7 @@
 class RecordRepository
 {
 
-  public function get(array $params)
+  public function getAll(array $params)
   {
     $conditions = [];
     $bindings = [];
@@ -43,5 +43,18 @@ class RecordRepository
 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function get(int $id)
+  {
+    $sql = 'SELECT * FROM registros WHERE id = :id';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam(':id', $id);
+
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }
