@@ -11,7 +11,7 @@ class Database
   {
     try {
       return new PDO(
-        'sqlite:../data/db.sqlite',
+        'sqlite:../../data/db.sqlite',
         '',
         '',
         [
