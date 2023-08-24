@@ -24,12 +24,7 @@
 
     public function sendResponse(): void {
       $this->setHeaders();
-
-      $isError = false;
-      if(!is_array($this->content)) {
-        $isError = strpos($this->content, 'Erro') !== false;
-      }
-
+      $isError = $this->httpCode !== '200' && $this->httpCode !== '204' ? true : false;
       echo json_encode(
         [$isError ? 'error' : 'data' => $this->content]
       );
