@@ -9,9 +9,13 @@ class RequestException extends Exception
   protected $code = 500;
   protected $message = 'Error in request';
 
-  public function __construct(string $message) {
+  public function __construct(string $message, int $code = null) {
     if($message) {
       $this->message = 'Error in request: ' . $message;
+    }
+
+    if($code) {
+      $this->code = $code;
     }
   }
 }

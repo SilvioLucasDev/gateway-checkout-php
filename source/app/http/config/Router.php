@@ -2,6 +2,7 @@
 
 namespace App\http\config;
 
+use App\http\exceptions\RequestException;
 use Closure;
 use Exception;
 use ReflectionFunction;
@@ -86,10 +87,10 @@ class Router
           $methods[$httpMethod]['variables']['request'] = $this->request;
           return $methods[$httpMethod];
         }
-        throw new Exception("Método não permitido", 405);
+        throw new RequestException("Method not allowed!", 405);
       }
     }
-    throw new Exception("URL não encontrada", 404);
+    throw new RequestException("URL not found!", 404);
   }
 
   public function run(): Response
@@ -97,7 +98,7 @@ class Router
     try {
       $route = $this->getRoute();
       if (!isset($route['controller'])) {
-        throw new Exception("A URL não pôde ser processada", 500);
+        throw new RequestException("The URL could not be processed");
       }
       $args = [];
       $reflection = new ReflectionFunction($route['controller']);
