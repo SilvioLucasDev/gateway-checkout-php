@@ -17,29 +17,30 @@ Caso ache a tarefa muito simples e queira implementar algo a mais, será muito b
 
 # Resposta do participante
 _Responda aqui quais foram suas dificuldades e explique a sua solução_
-Estava com dificuldade em utilizar o sqlite, modifiquei a extensão do arquivo para .sqlite
-Estava com dificuldade em utilizar o .htaccess, inclui no Dockerfile o comando para habilitar o modo de rewrite do apache.
-Não consegui modificar o id da tabela registros para AUTO INCREMENT, criei um método no repository que pega o último id e fiz um incremento dentro da entity Record.
+Estava com dificuldade em utilizar o SQLite; modifiquei a extensão do arquivo para .sqlite.
+Estava com dificuldade em utilizar o .htaccess; incluí no Dockerfile o comando para habilitar o modo de rewrite do Apache.
+Não consegui modificar o id da tabela registros para AUTO INCREMENT, criei um método no repository que pega o último id e fiz um incremento dentro da model Record.
 
-// EXPLICAR DEPOIS OQUE EU FIZ DE ADICIONAL NA APLICAÇÃO (OPTEI POR ATUALIZAR O PHP DO docker-compose)
 
-FAZER DEPOIS
+// -> PENDENTE
+EXPLICAR DEPOIS OQUE EU FIZ DE ADICIONAL NA APLICAÇÃO (OPTEI POR ATUALIZAR O PHP DO docker-compose)
 
-// CONTROLLER: REMOVER VALIDAÇÃO DA CONTROLLER E COLOCAR EM UM ARQUIVO SEPARADO?
-// CONTROLLER: CENTRALIZAR O TRATAMENTO DE ERROS
-// INJETAR INSTANCIA DO REPOSITORY E UTILIZAR PELO THIS.
+CONTROLLER: REMOVER VALIDAÇÃO DA CONTROLLER E COLOCAR EM UM ARQUIVO SEPARADO?
+CONTROLLER: CRIAR UMA CLASSE PARA CENTRALIZAR A VALIDAÇÃO DE ERROS?
 
-// ALL: CRIAR ERROS ESPECÍFICOS
-// ALL: DEIXAR TUDO EM INGLÊS
-// ALL: UTILIZAR INJEÇÃO DE DEPENDÊNCIA
-// ALL: ADICIONAR TESTES
-// ALL: ADD PSR-4
+ALL: UTILIZAR INJEÇÃO DE DEPENDÊNCIA
+ALL: CRIAR ERROS ESPECÍFICOS
+ALL: DEIXAR TUDO EM INGLÊS
+ALL: ADICIONAR TESTES
+ALL: TIPAR TUDO
 
-// MOVER THROWS DA CONTROLLER PARA O REPOSITORY?
-// COLOCAR TYPE EM TUDO
+MELHORAR VALIDAÇÕES DE RETURNO
 
-// UTILIZAR A CONEXÃO COM O DB NA CONSTRUCT
-// MELHORAR CLASSE DO DB?
-// MELHORAR ENTITY
-// CRIAR UM SWAGGER
-// HOSPEDAR NA RENDER
+REPOSITORY: CRIAR HELPERS PARA CONSULTAS?
+MOVER THROWS DA CONTROLLER PARA O REPOSITORY?
+
+UTILIZAR A CONEXÃO COM O DB NA CONSTRUCT
+MELHORAR CLASSE DO DB?
+MELHORAR ENTITY
+CRIAR UM SWAGGER
+HOSPEDAR NO RENDER
