@@ -5,29 +5,31 @@ namespace App\http\controllers;
 use App\http\config\Request;
 use App\http\validations\RequiredNumberValidation;
 use App\http\validations\RequiredValidation;
-use App\infra\repositories\sqlite\RecordRepository;
+use App\infra\repositories\interfaces\RecordRepositoryInterface;
 use App\models\Record;
 
 class RecordController
 {
-  public static function index(Request $request): array
+  public function __construct(private readonly RecordRepositoryInterface $repository)
+  {
+  }
+
+  public function index(Request $request): array
   {
     $queryParams = $request->getQueryParams();
-    $repository = new RecordRepository();
-    return $repository->get($queryParams);
+    return $this->repository->get($queryParams);
   }
 
-  public static function show(int|string $id): array|string
+
+  public function show(int|string $id): array|string
   {
     RequiredNumberValidation::validate(['id' => $id], ['id']);
-    $repository = new RecordRepository();
-    return $repository->findById($id);
+    return $this->repository->findById($id);
   }
 
-  public static function store(Request $request): string
+  public function store(Request $request): string
   {
-    $repository = new RecordRepository();
-    $lastId = $repository->getLastInsertedId();
+    $lastId = $this->repository->getLastInsertedId();
     $data = $request->getPostVars();
     RequiredValidation::validate($data, ['type', 'message', 'is_identified']);
     $record = Record::create(
@@ -38,16 +40,15 @@ class RecordController
       $data['whistleblower_name'] ?? null,
       $data['whistleblower_birth'] ?? null
     );
-    return $repository->save($record);
+    return $this->repository->save($record);
   }
 
-  public static function destroy(int $id): string
+  public function destroy(int $id): string
   {
-    $repository = new RecordRepository();
-    return $repository->delete($id);
+    return $this->repository->delete($id);
   }
 
-  public static function update(int $id, Request $request): string
+  public function update(int $id, Request $request): string
   {
     $data = $request->getPostVars();
     RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
@@ -61,7 +62,6 @@ class RecordController
       $data['deleted']
     );
 
-    $repository = new RecordRepository();
-    return $repository->update($record);
+    return $this->repository->update($record);
   }
 }
