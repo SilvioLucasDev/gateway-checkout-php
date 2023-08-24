@@ -2,7 +2,7 @@
 
 namespace App\infra\repositories\sqlite\helpers;
 
-use Exception;
+use App\infra\exceptions\ConnectionException;
 use PDO;
 use PDOException;
 
@@ -25,7 +25,7 @@ class Connection
         ]
       );
     } catch (PDOException $e) {
-      throw new Exception('Erro na conexão com o banco de dados: ' . $e->getMessage());
+      throw new ConnectionException( $e->getMessage());
     }
   }
 
