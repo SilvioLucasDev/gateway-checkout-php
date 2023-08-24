@@ -52,13 +52,17 @@ class RecordRepository
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function findById(int $id): array
+  public function findById(int $id): array|string
   {
     $sql = 'SELECT * FROM registros WHERE id = :id';
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $result =  $stmt->fetch(PDO::FETCH_ASSOC);
+    if(!$result) {
+      return "Record not found!";
+    }
+    return $result;
   }
 
   public function save(Record $record): string
