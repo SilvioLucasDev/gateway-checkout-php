@@ -22,14 +22,14 @@ class Request
     $this->setPostVars();
   }
 
-  private function setUri()
+  private function setUri(): void
   {
     $this->uri = $_SERVER['REQUEST_URI'] ?? '';
     $xUri = explode('?', $this->uri);
     $this->uri = $xUri[0];
   }
 
-  private function setPostVars()
+  private function setPostVars(): void
   {
     $this->postVars = json_decode(file_get_contents('php://input'), true) ?? [];
   }

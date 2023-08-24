@@ -45,22 +45,22 @@ class Router
     $this->routes[$patternRoute][$method] = $params;
   }
 
-  public function get(string $route, array $params = [])
+  public function get(string $route, array $params = []): mixed
   {
     return $this->addRoute('GET', $route, $params);
   }
 
-  public function post(string $route, array $params = [])
+  public function post(string $route, array $params = []): mixed
   {
     return $this->addRoute('POST', $route, $params);
   }
 
-  public function put(string $route, array $params = [])
+  public function put(string $route, array $params = []): mixed
   {
     return $this->addRoute('PUT', $route, $params);
   }
 
-  public function delete(string $route, array $params = [])
+  public function delete(string $route, array $params = []): mixed
   {
     return $this->addRoute('DELETE', $route, $params);
   }
@@ -72,7 +72,7 @@ class Router
     return end($xUri);
   }
 
-  private function getRoute()
+  private function getRoute(): array
   {
     $uri = $this->getUri();
     $httpMethod = $this->request->getHttpMethod();
@@ -92,7 +92,7 @@ class Router
     throw new Exception("URL não encontrada", 404);
   }
 
-  public function run()
+  public function run(): Response
   {
     try {
       $route = $this->getRoute();
@@ -107,7 +107,7 @@ class Router
       }
       return call_user_func_array($route['controller'], $args);
     } catch (Exception $e) {
-      return new Response($e->getCode(), $e->getMessage());
+      return new Response( $e->getMessage(), $e->getCode());
     }
   }
 }

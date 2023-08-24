@@ -10,23 +10,23 @@ use Exception;
 class RecordController
 {
 
-  public static function index(Request $request)
+  public static function index(Request $request): array
   {
     $queryParams = $request->getQueryParams();
     $repository = new RecordRepository();
-    return $repository->getAll($queryParams);
+    return $repository->get($queryParams);
   }
 
-  public static function show(int $id)
+  public static function show(int $id): array
   {
     $repository = new RecordRepository();
-    return $repository->get($id);
+    return $repository->findById($id);
   }
 
-  public static function store(Request $request)
+  public static function store(Request $request): string
   {
     $repository = new RecordRepository();
-    $lastId = $repository->lastId();
+    $lastId = $repository->getLastInsertedId();
     $data = $request->getPostVars();
     self::validate($data, ['type', 'message', 'is_identified']);
     $record = Record::create(
@@ -44,7 +44,7 @@ class RecordController
     return "Registro cadastrado com sucesso!";
   }
 
-  public static function destroy(int $id)
+  public static function destroy(int $id): string
   {
     $repository = new RecordRepository();
     $result =  $repository->delete($id);
@@ -54,7 +54,7 @@ class RecordController
     return "Registro deletado com sucesso!";
   }
 
-  public static function update(int $id, Request $request)
+  public static function update(int $id, Request $request): string
   {
     $data = $request->getPostVars();
 
@@ -77,7 +77,7 @@ class RecordController
     return "Registro atualizado com sucesso!";
   }
 
-  private static function validate(array $data, array $requiredFields)
+  private static function validate(array $data, array $requiredFields): void
   {
     foreach ($requiredFields as $field) {
       if (!isset($data[$field])) {

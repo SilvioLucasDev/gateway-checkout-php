@@ -9,7 +9,7 @@ use PDO;
 class RecordRepository
 {
 
-  public function getAll(array $params)
+  public function get(array $params): array
   {
     $conditions = [];
     $bindings = [];
@@ -51,7 +51,7 @@ class RecordRepository
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function get(int $id)
+  public function findById(int $id): array
   {
     $sql = 'SELECT * FROM registros WHERE id = :id';
 
@@ -64,7 +64,7 @@ class RecordRepository
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function save(Record $record)
+  public function save(Record $record): bool
   {
     $sql = 'INSERT INTO registros (id, type, message, is_identified, whistleblower_name, whistleblower_birth, created_at, deleted)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
@@ -84,7 +84,7 @@ class RecordRepository
     return $stmt->execute() ? true : false;
   }
 
-  public function delete(int $id)
+  public function delete(int $id): bool
   {
     $sql = 'DELETE FROM registros WHERE id = :id';
 
@@ -96,7 +96,7 @@ class RecordRepository
     return $stmt->execute() ? true : false;
   }
 
-  public function update(Record $record)
+  public function update(Record $record): bool
   {
     $sql = 'UPDATE registros SET
             type = :type,
@@ -121,7 +121,7 @@ class RecordRepository
     return $stmt->execute() ? true : false;
   }
 
-  public function lastId()
+  public function getLastInsertedId(): array
   {
     $sql = 'SELECT max(id) as id FROM registros';
 
