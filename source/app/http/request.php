@@ -14,12 +14,17 @@
       $this->postVars = $_POST ?? [];
       $this->headers = getallheaders();
       $this->setUri();
+      $this->setBody();
     }
 
-    private function setUri(){
+    private function setUri() {
       $this->uri = $_SERVER['REQUEST_URI'] ?? '';
       $xUri = explode('?', $this->uri);
       $this->uri = $xUri[0];
+    }
+
+    private function setBody(){
+      $this->postVars = json_decode(file_get_contents('php://input'), true) ?? [];
     }
 
     public function getRouter(): Router {
