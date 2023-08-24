@@ -1,4 +1,5 @@
 <?php
+require_once './app/models/record.php';
 
 class RecordRepository
 {
@@ -53,6 +54,41 @@ class RecordRepository
     $stmt = $db->prepare($sql);
 
     $stmt->bindParam(':id', $id);
+
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  public function save(Record $record)
+  {
+    $sql = 'INSERT INTO registros (id, type, message, is_identified, whistleblower_name, whistleblower_birth, created_at, deleted)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(1, $record->id);
+    $stmt->bindValue(2, $record->type);
+    $stmt->bindValue(3, $record->message);
+    $stmt->bindValue(4, $record->is_identified, PDO::PARAM_INT);
+    $stmt->bindValue(5, $record->whistleblower_name);
+    $stmt->bindValue(6, $record->whistleblower_birth);
+    $stmt->bindValue(7, $record->created_at);
+    $stmt->bindValue(8, $record->deleted, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function lastId()
+  {
+    $sql = 'SELECT max(id) as id FROM registros';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
 
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
