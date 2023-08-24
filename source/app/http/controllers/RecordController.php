@@ -3,13 +3,12 @@
 namespace App\http\controllers;
 
 use App\http\config\Request;
+use App\http\exceptions\RequiredFieldError;
 use App\infra\repositories\sqlite\RecordRepository;
 use App\models\Record;
-use Exception;
 
 class RecordController
 {
-
   public static function index(Request $request): array
   {
     $queryParams = $request->getQueryParams();
@@ -37,21 +36,13 @@ class RecordController
       $data['whistleblower_name'] ?? null,
       $data['whistleblower_birth'] ?? null
     );
-    $result =  $repository->save($record);
-    if (!$result) {
-      throw new Exception("Erro ao cadastrar registro", 500);
-    }
-    return "Registro cadastrado com sucesso!";
+    return $repository->save($record);
   }
 
   public static function destroy(int $id): string
   {
     $repository = new RecordRepository();
-    $result =  $repository->delete($id);
-    if (!$result) {
-      throw new Exception("Erro ao deletar registro", 500);
-    }
-    return "Registro deletado com sucesso!";
+    return $repository->delete($id);
   }
 
   public static function update(int $id, Request $request): string
@@ -70,18 +61,14 @@ class RecordController
     );
 
     $repository = new RecordRepository();
-    $result =  $repository->update($record);
-    if (!$result) {
-      throw new Exception("Erro ao atualizar o registro", 500);
-    }
-    return "Registro atualizado com sucesso!";
+    return $repository->update($record);
   }
 
   private static function validate(array $data, array $requiredFields): void
   {
     foreach ($requiredFields as $field) {
       if (!isset($data[$field])) {
-        throw new Exception("Campo '$field' é obrigatório", 400);
+        throw new RequiredFieldError($field);
       }
     }
   }
