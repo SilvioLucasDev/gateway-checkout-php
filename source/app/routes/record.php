@@ -25,3 +25,9 @@ $objRouter->delete('/registro/{id}', [
     return  new Response('200', RecordController::destroy($id));
   }
 ]);
+
+$objRouter->put('/registro/{id}', [
+  function($id, $request){
+    return  new Response('200', RecordController::update($id, $request));
+  }
+]);
