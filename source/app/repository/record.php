@@ -79,18 +79,7 @@ class RecordRepository
     return $stmt->execute() ? true : false;
   }
 
-  public function lastId()
-  {
-    $sql = 'SELECT max(id) as id FROM registros';
-
-    $db = Database::connect();
-    $stmt = $db->prepare($sql);
-
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-  }
-
-   public function delete(int $id)
+  public function delete(int $id)
   {
     $sql = 'DELETE FROM registros WHERE id = :id';
 
@@ -100,5 +89,41 @@ class RecordRepository
     $stmt->bindParam(':id', $id);
 
     return $stmt->execute() ? true : false;
+  }
+
+  public function update(Record $record)
+  {
+    $sql = 'UPDATE registros SET
+            type = :type,
+            message = :message,
+            is_identified = :is_identified,
+            whistleblower_name = :whistleblower_name,
+            whistleblower_birth = :whistleblower_birth,
+            deleted = :deleted
+            WHERE id = :id';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(':id', $record->id);
+    $stmt->bindValue(':type', $record->type);
+    $stmt->bindValue(':message', $record->message);
+    $stmt->bindValue(':is_identified', $record->is_identified);
+    $stmt->bindValue(':whistleblower_name', $record->whistleblower_name);
+    $stmt->bindValue(':whistleblower_birth', $record->whistleblower_birth);
+    $stmt->bindValue(':deleted', $record->deleted);
+
+    return $stmt->execute() ? true : false;
+  }
+
+  public function lastId()
+  {
+    $sql = 'SELECT max(id) as id FROM registros';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }
