@@ -7,3 +7,9 @@ $objRouter->get('/registros', [
     return  new Response('200', RecordController::index($request));
   }
 ]);
+
+$objRouter->get('/registro/{id}', [
+  function($id){
+    return  new Response('200', RecordController::show($id));
+  }
+]);
