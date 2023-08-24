@@ -3,6 +3,7 @@
 namespace App\http\controllers;
 
 use App\http\config\Request;
+use App\http\validations\RequiredNumberValidation;
 use App\http\validations\RequiredValidation;
 use App\infra\repositories\sqlite\RecordRepository;
 use App\models\Record;
@@ -16,8 +17,9 @@ class RecordController
     return $repository->get($queryParams);
   }
 
-  public static function show(int $id): array
+  public static function show(int|string $id): array|string
   {
+    RequiredNumberValidation::validate(['id' => $id], ['id']);
     $repository = new RecordRepository();
     return $repository->findById($id);
   }
