@@ -3,12 +3,13 @@
 namespace App\infra\repositories\sqlite;
 
 use App\infra\exceptions\OperationException;
+use App\infra\repositories\interfaces\RecordRepositoryInterface;
 use App\infra\repositories\sqlite\helpers\Connection;
 use App\models\Record;
 use DateTime;
 use PDO;
 
-class RecordRepository
+class RecordRepository implements RecordRepositoryInterface
 {
   private PDO    $db;
   private ?array $bindings;
