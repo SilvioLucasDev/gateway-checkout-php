@@ -24,4 +24,16 @@ class Record
         $created_at = date('Y-m-d H:i:s');
         return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $created_at);
     }
+
+    public static function update(
+      int    $id,
+      string $type,
+      string $message,
+      int    $is_identified,
+      string $whistleblower_name,
+      string $whistleblower_birth,
+      string $deleted
+  ) {
+      return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $deleted);
+  }
 }
