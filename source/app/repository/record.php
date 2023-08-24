@@ -76,11 +76,7 @@ class RecordRepository
     $stmt->bindValue(7, $record->created_at);
     $stmt->bindValue(8, $record->deleted, PDO::PARAM_INT);
 
-    if ($stmt->execute()) {
-      return true;
-    } else {
-      return false;
-    }
+    return $stmt->execute() ? true : false;
   }
 
   public function lastId()
@@ -92,5 +88,17 @@ class RecordRepository
 
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+   public function delete(int $id)
+  {
+    $sql = 'DELETE FROM registros WHERE id = :id';
+
+    $db = Database::connect();
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam(':id', $id);
+
+    return $stmt->execute() ? true : false;
   }
 }
