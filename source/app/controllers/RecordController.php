@@ -1,7 +1,11 @@
 <?php
-require_once './app/http/request.php';
-require_once './app/repository/record.php';
-require_once './app/models/record.php';
+
+namespace App\controllers;
+
+use App\http\Request;
+use App\models\Record;
+use App\repositories\RecordRepository;
+use Exception;
 
 class RecordController
 {

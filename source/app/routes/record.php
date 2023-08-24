@@ -1,6 +1,7 @@
 <?php
-require_once './app/http/response.php';
-require_once './app/controllers/record.php';
+
+use App\controllers\RecordController;
+use App\http\Response;
 
 $objRouter->get('/registros', [
   function ($request) {

@@ -1,5 +1,10 @@
 <?php
-require_once './app/models/record.php';
+
+namespace App\repositories;
+
+use App\db\Database;
+use App\models\Record;
+use PDO;
 
 class RecordRepository
 {
