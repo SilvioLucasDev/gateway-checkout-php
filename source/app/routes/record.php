@@ -19,3 +19,9 @@ $objRouter->post('/registro', [
     return  new Response('200', RecordController::store($request));
   }
 ]);
+
+$objRouter->delete('/registro/{id}', [
+  function($id){
+    return  new Response('200', RecordController::destroy($id));
+  }
+]);
