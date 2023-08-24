@@ -14,7 +14,7 @@
       $this->postVars = $_POST ?? [];
       $this->headers = getallheaders();
       $this->setUri();
-      $this->setBody();
+      $this->setPostVars();
     }
 
     private function setUri() {
@@ -23,7 +23,7 @@
       $this->uri = $xUri[0];
     }
 
-    private function setBody(){
+    private function setPostVars(){
       $this->postVars = json_decode(file_get_contents('php://input'), true) ?? [];
     }
 

@@ -3,11 +3,10 @@
   require_once './app/http/response.php';
 
   class Router {
+    private Request $request;
     private string  $url;
     private string  $prefix;
     private array   $routes;
-    private Request $request;
-    private array   $headers;
 
     public function __construct(string $url) {
       $this->request = new Request($this);

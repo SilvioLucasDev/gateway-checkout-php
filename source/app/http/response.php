@@ -4,7 +4,7 @@
     private mixed $content;
     private array $headers;
 
-    public function __construct(string $httpCode, mixed $content) {
+    public function __construct(mixed $content, string $httpCode = '200') {
       $this->httpCode = $httpCode;
       $this->content = $content;
       $this->addHeader('Content-Type', 'application/json');
