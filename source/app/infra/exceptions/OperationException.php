@@ -12,7 +12,7 @@ class OperationException extends Exception
   public function __construct(string $message, int $code = null)
   {
     if ($message) {
-      $this->message = 'Database operation: ' . $message;
+      $this->message = 'Database operation error: ' . $message;
     }
     if ($code) {
       $this->code = $code;
