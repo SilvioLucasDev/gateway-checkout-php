@@ -3,7 +3,7 @@
 namespace App\Factories;
 
 use App\Http\Controllers\RecordController;
-use App\Infra\Repositories\SqLite\RecordRepository;
+use App\Infra\Repositories\SQLite\RecordRepository;
 
 class RecordControllerFactory
 {

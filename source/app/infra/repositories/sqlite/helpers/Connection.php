@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra\Repositories\SqLite\Helpers;
+namespace App\Infra\Repositories\SQLite\Helpers;
 
 use App\Infra\Exceptions\ConnectionException;
 use PDO;
