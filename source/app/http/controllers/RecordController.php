@@ -4,8 +4,7 @@ namespace App\Http\controllers;
 
 use App\Http\Config\Request;
 use App\Http\Exceptions\RecordNotFoundException;
-use App\Http\Validations\RequiredNumberValidation;
-use App\Http\Validations\RequiredValidation;
+use App\Http\Validations\FieldValidation;
 use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
 use App\Models\Record;
 
@@ -24,7 +23,7 @@ class RecordController
 
   public function show(int|string $id): array|string
   {
-    RequiredNumberValidation::validate(['id' => $id], ['id']);
+    FieldValidation::isNumber(['id' => $id], ['id']);
     $record = $this->repository->findById($id);
     return $record ? $record : 'Record not found!';
   }
@@ -33,7 +32,13 @@ class RecordController
   {
     $lastId = $this->repository->getLastInsertedId();
     $body = $request->getPostVars();
-    RequiredValidation::validate($body, ['type', 'message', 'is_identified']);
+    FieldValidation::isBool($body, ['is_identified']);
+    FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
+    if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
+      FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
+    } else {
+      unset($body['whistleblower_name'], $body['whistleblower_birth']);
+    }
     $record = Record::create(
       $lastId['id'],
       $body['type'],
@@ -47,7 +52,7 @@ class RecordController
 
   public function destroy(int|string $id): string
   {
-    RequiredNumberValidation::validate(['id' => $id], ['id']);
+    FieldValidation::isNumber(['id' => $id], ['id']);
     $record = $this->repository->findById($id);
     if (!$record) throw new RecordNotFoundException();
     return $this->repository->delete($id);
@@ -55,12 +60,27 @@ class RecordController
 
   public function update(int|string $id, Request $request): string
   {
-    RequiredNumberValidation::validate(['id' => $id], ['id']);
+    FieldValidation::isNumber(['id' => $id], ['id']);
     $record = $this->repository->findById($id);
     if (!$record) throw new RecordNotFoundException();
     $body = $request->getPostVars();
     $method = $request->getHttpMethod();
-    if ($method === 'PUT') RequiredValidation::validate($body, ['type', 'message', 'is_identified', 'deleted']);
+    if ($method === 'PUT') {
+      FieldValidation::isBool($body, ['is_identified', 'deleted']);
+      FieldValidation::isRequired($body, ['type', 'message', 'is_identified', 'deleted']);
+      if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
+        FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
+      } else {
+        unset($body['whistleblower_name'], $body['whistleblower_birth']);
+      }
+    }
+    if (isset($body['is_identified'])) {
+      if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
+        FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
+      } else {
+        unset($body['whistleblower_name'], $body['whistleblower_birth']);
+      }
+    }
     $record = Record::update(
       $id,
       $body['type'] ?? null,
