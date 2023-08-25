@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Models;
 
+use App\Domain\Exceptions\InvalidRecordDataException;
 use DateTime;
-use Exception;
 
 class Record
 {
@@ -49,10 +49,10 @@ class Record
     if (isset($this->is_identified)) {
       if ($this->is_identified === 1 || $this->is_identified === '1') {
         if (!isset($this->whistleblower_name)) {
-          throw new Exception("The whistleblower's name must be informed!");
+          throw new InvalidRecordDataException("The whistleblower's name must be informed!");
         }
         if (!isset($this->whistleblower_birth)) {
-          throw new Exception("It is necessary to inform the date of birth of the whistleblower!");
+          throw new InvalidRecordDataException("It is necessary to inform the date of birth of the whistleblower!");
         }
       } else {
         $this->whistleblower_name = '';

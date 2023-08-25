@@ -5,7 +5,7 @@ namespace App\Infra\Repositories\SQLite;
 use App\Infra\Exceptions\OperationException;
 use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
 use App\Infra\Repositories\SQLite\Helpers\Connection;
-use App\Models\Record;
+use App\Domain\Models\Record;
 use DateTime;
 use PDO;
 

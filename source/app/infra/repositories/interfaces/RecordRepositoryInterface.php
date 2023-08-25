@@ -2,7 +2,7 @@
 
 namespace App\Infra\Repositories\Interfaces;
 
-use App\Models\Record;
+use App\Domain\Models\Record;
 
 interface RecordRepositoryInterface
 {

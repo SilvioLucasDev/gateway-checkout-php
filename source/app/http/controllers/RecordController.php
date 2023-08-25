@@ -6,7 +6,7 @@ use App\Http\Config\Request;
 use App\Http\Exceptions\RecordNotFoundException;
 use App\Http\Validations\FieldValidation;
 use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
-use App\Models\Record;
+use App\Domain\Models\Record;
 
 class RecordController
 {
@@ -19,7 +19,6 @@ class RecordController
     $queryParams = $request->getQueryParams();
     return $this->repository->get($queryParams);
   }
-
 
   public function show(int|string $id): array|string
   {

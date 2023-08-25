@@ -25,8 +25,11 @@ Não consegui modificar o id da tabela registros para AUTO INCREMENT, criei um m
 // -> PENDENTE
 EXPLICAR DEPOIS OQUE EU FIZ DE ADICIONAL NA APLICAÇÃO (OPTEI POR ATUALIZAR O PHP DO docker-compose)
 
-ALL: ADICIONAR TESTES
-CRIAR UM SWAGGER
-HOSPEDAR NO RENDER
 
 CONTROLLER COM MUITA RESPONSABILIDADE?
+
+
+DomainValidationException("O valor da diária não pode ser menor que R$")
+DELETED NÃO APAGA O CAMPO SÓ MUDA PARA 0
+
+só pode deletar um campo pelo metodo DELETE
