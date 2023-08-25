@@ -49,10 +49,10 @@ class Record
 
   private static function checkWhistleblowerIsIdentified(?string $whistleblower_name, ?string $whistleblower_birth, int $is_identified): void
   {
-    if (isset($whistleblower_name) || isset($whistleblower_birth)) {
-      if (!$is_identified) throw new InvalidRecordDataException("An identity must be activated before setting a name or birthday for the whistleblower!");
+    if ((isset($whistleblower_name) || isset($whistleblower_birth)) && ($is_identified)) {
+      if (!$is_identified) throw new InvalidRecordDataException('An identity must be activated before setting a name or birthday for the whistleblower!');
       if (!isset($whistleblower_name) || empty($whistleblower_name)) throw new InvalidRecordDataException("The whistleblower's name must be informed!");
-      if (!isset($whistleblower_birth) || empty($whistleblower_birth)) throw new InvalidRecordDataException("It is necessary to inform the date of birth of the whistleblower!");
+      if (!isset($whistleblower_birth) || empty($whistleblower_birth)) throw new InvalidRecordDataException('It is necessary to inform the date of birth of the whistleblower!');
     }
   }
 
@@ -61,7 +61,7 @@ class Record
     if (isset($this->is_identified)) {
       if ($this->is_identified) {
         if (!isset($this->whistleblower_name)) throw new InvalidRecordDataException("The whistleblower's name must be informed!");
-        if (!isset($this->whistleblower_birth)) throw new InvalidRecordDataException("It is necessary to inform the date of birth of the whistleblower!");
+        if (!isset($this->whistleblower_birth)) throw new InvalidRecordDataException('It is necessary to inform the date of birth of the whistleblower!');
       } else {
         $this->whistleblower_name = '';
         $this->whistleblower_birth = '';
