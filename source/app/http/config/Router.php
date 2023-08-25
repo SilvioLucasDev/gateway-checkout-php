@@ -101,9 +101,7 @@ class Router
   {
     try {
       $route = $this->getRoute();
-      if (!isset($route['controller'])) {
-        throw new RequestException("The URL could not be processed!");
-      }
+      if (!isset($route['controller'])) throw new RequestException("The URL could not be processed!");
       $args = [];
       $reflection = new ReflectionFunction($route['controller']);
       foreach ($reflection->getParameters() as $parameter) {

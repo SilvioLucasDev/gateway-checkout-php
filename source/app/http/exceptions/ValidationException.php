@@ -11,8 +11,6 @@ class ValidationException extends Exception
 
   public function __construct(string $message)
   {
-    if ($message) {
-      $this->message = 'Validation error: ' . $message;
-    }
+    if ($message) $this->message = 'Validation error: ' . $message;
   }
 }

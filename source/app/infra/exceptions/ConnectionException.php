@@ -11,8 +11,6 @@ class ConnectionException extends Exception
 
   public function __construct(string $message)
   {
-    if ($message) {
-      $this->message = 'Database connection error: ' . $message;
-    }
+    if ($message) $this->message = 'Database connection error: ' . $message;
   }
 }

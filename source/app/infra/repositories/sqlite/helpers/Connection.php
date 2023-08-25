@@ -31,9 +31,7 @@ class Connection
 
   public static function getInstance(): PDO
   {
-    if (self::$instance === null) {
-      new Connection();
-    }
+    if (self::$instance === null) new Connection();
     return self::$instance;
   }
 }

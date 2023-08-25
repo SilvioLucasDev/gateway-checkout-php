@@ -33,17 +33,14 @@ class RecordRepository implements RecordRepositoryInterface
       }
     }
     $sql = 'SELECT * FROM registros';
-    if (!empty($this->clauses)) {
+    if (!empty($this->clauses))
       $sql .= ' WHERE ' . implode(' AND ', $this->clauses);
-    }
-    if (isset($params['order_by']) && $params['order_by'] !== '') {
+    if (isset($params['order_by']) && $params['order_by'] !== '')
       $sql .= ' ORDER BY ' . $params['order_by'];
-    }
     if (isset($params['limit']) && is_numeric($params['limit'])) {
       $sql .= ' LIMIT ' . (int)$params['limit'];
-      if (isset($params['offset']) && is_numeric($params['offset'])) {
+      if (isset($params['offset']) && is_numeric($params['offset']))
         $sql .= ' OFFSET ' . (int)$params['offset'];
-      }
     }
     $stmt = $this->db->prepare($sql);
     if (isset($this->bindings)) {
@@ -82,9 +79,7 @@ class RecordRepository implements RecordRepositoryInterface
     foreach ($this->bindings as $param => &$value) {
       $stmt->bindValue($param, $value);
     }
-    if (!$stmt->execute()) {
-      $this->throwException("Record creation!");
-    }
+    if (!$stmt->execute()) throw new OperationException('Record creation!');
     return "Record successfully created!";
   }
 
@@ -93,9 +88,7 @@ class RecordRepository implements RecordRepositoryInterface
     $sql = 'DELETE FROM registros WHERE id = :id';
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
-    if (!$stmt->execute()) {
-      $this->throwException("Record deletion!");
-    }
+    if (!$stmt->execute()) throw new OperationException('Record deletion!');
     return "Record successfully deleted!";
   }
 
@@ -113,9 +106,7 @@ class RecordRepository implements RecordRepositoryInterface
     foreach ($this->bindings as $param => &$value) {
       $stmt->bindValue($param, $value);
     }
-    if (!$stmt->execute()) {
-      $this->throwException("Record update!");
-    }
+    if (!$stmt->execute()) throw new OperationException('Record update!');
     return "Record successfully updated!";
   }
 
@@ -125,10 +116,5 @@ class RecordRepository implements RecordRepositoryInterface
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
-  }
-
-  private function throwException(string $message): void
-  {
-    throw new OperationException($message, 500);
   }
 }

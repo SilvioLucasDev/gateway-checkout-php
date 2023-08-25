@@ -10,9 +10,7 @@ class RequiredNumberValidation extends RequiredValidation
   {
     parent::validate($data, $requiredFields);
     foreach ($requiredFields as $field) {
-      if (!is_numeric($data[$field])) {
-        throw new ValidationException("The $field field must be a number!");
-      }
+      if (!is_numeric($data[$field])) throw new ValidationException("The $field field must be a number!");
     }
   }
 }
