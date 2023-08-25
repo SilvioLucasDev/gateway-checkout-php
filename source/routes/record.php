@@ -37,3 +37,10 @@ $objRouter->put('/registro/{id}', [
     return  new Response($controller->update($id, $request));
   }
 ]);
+
+$objRouter->patch('/registro/{id}', [
+  function ($id, $request) {
+    $controller = RecordControllerFactory::create();
+    return  new Response($controller->update($id, $request));
+  }
+]);
