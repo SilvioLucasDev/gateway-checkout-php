@@ -87,7 +87,7 @@ class RecordRepository implements RecordRepositoryInterface
 
   public function delete(int $id): string
   {
-    $sql = 'DELETE FROM registros WHERE id = :id';
+    $sql = 'UPDATE registros SET deleted = 1 WHERE id = :id';
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
     if (!$stmt->execute()) throw new OperationException('Record deletion!');
