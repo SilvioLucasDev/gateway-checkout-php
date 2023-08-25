@@ -51,17 +51,19 @@ class RecordController
   public function update(int $id, Request $request): string
   {
     $data = $request->getPostVars();
-    RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
+    $method = $request->getHttpMethod();
+    if($method === 'PUT') {
+      RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
+    }
     $record = Record::update(
       $id,
-      $data['type'],
-      $data['message'],
-      $data['is_identified'],
+      $data['type'] ?? null,
+      $data['message']?? null,
+      $data['is_identified']?? null,
       $data['whistleblower_name'] ?? null,
       $data['whistleblower_birth'] ?? null,
-      $data['deleted']
+      $data['deleted']?? null
     );
-
     return $this->repository->update($record);
   }
 }
