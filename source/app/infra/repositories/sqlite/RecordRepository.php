@@ -3,6 +3,7 @@
 namespace App\Infra\Repositories\SqLite;
 
 use App\Infra\Exceptions\OperationException;
+use App\Infra\Exceptions\RecordNotFoundException;
 use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
 use App\Infra\Repositories\SqLite\Helpers\Connection;
 use App\Models\Record;
@@ -63,7 +64,7 @@ class RecordRepository implements RecordRepositoryInterface
     $stmt->execute();
     $result =  $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
-      return "Record not found!";
+      throw new RecordNotFoundException();
     }
     return $result;
   }
@@ -87,9 +88,9 @@ class RecordRepository implements RecordRepositoryInterface
       $stmt->bindValue($param, $value);
     }
     if (!$stmt->execute()) {
-      $this->throwException("Error registering!");
+      $this->throwException("Error creating record!");
     }
-    return "Registration successfully registered!";
+    return "Record successfully created!";
   }
 
   public function delete(int $id): string
@@ -120,7 +121,7 @@ class RecordRepository implements RecordRepositoryInterface
     if (!$stmt->execute()) {
       $this->throwException("Error updating record!");
     }
-    return "Registration successfully updated!";
+    return "Record successfully updated!";
   }
 
   public function getLastInsertedId(): array
