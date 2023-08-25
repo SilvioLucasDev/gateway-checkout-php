@@ -83,7 +83,7 @@ class RecordRepository implements RecordRepositoryInterface
       $stmt->bindValue($param, $value);
     }
     if (!$stmt->execute()) {
-      $this->throwException("Error creating record!");
+      $this->throwException("Record creation!");
     }
     return "Record successfully created!";
   }
@@ -94,7 +94,7 @@ class RecordRepository implements RecordRepositoryInterface
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
     if (!$stmt->execute()) {
-      $this->throwException("Error deleting record!");
+      $this->throwException("Record deletion!");
     }
     return "Record successfully deleted!";
   }
@@ -114,7 +114,7 @@ class RecordRepository implements RecordRepositoryInterface
       $stmt->bindValue($param, $value);
     }
     if (!$stmt->execute()) {
-      $this->throwException("Error updating record!");
+      $this->throwException("Record update!");
     }
     return "Record successfully updated!";
   }
