@@ -2,7 +2,7 @@
 
 namespace App\Http\Validations;
 
-use App\Http\Exceptions\RequiredNumberError;
+use App\Http\Exceptions\ValidationException;
 
 class RequiredNumberValidation extends RequiredValidation
 {
@@ -11,7 +11,7 @@ class RequiredNumberValidation extends RequiredValidation
     parent::validate($data, $requiredFields);
     foreach ($requiredFields as $field) {
       if (!is_numeric($data[$field])) {
-        throw new RequiredNumberError($field);
+        throw new ValidationException("The $field field must be a number!");
       }
     }
   }

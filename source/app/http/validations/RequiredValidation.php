@@ -2,7 +2,7 @@
 
 namespace App\Http\Validations;
 
-use App\Http\Exceptions\RequiredFieldError;
+use App\Http\Exceptions\ValidationException;
 
 class RequiredValidation
 {
@@ -10,7 +10,7 @@ class RequiredValidation
   {
     foreach ($requiredFields as $field) {
       if (!isset($data[$field])) {
-        throw new RequiredFieldError($field);
+        throw new ValidationException("The field $field is required!");
       }
     }
   }
