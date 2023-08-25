@@ -80,7 +80,7 @@ class RecordRepository implements RecordRepositoryInterface
       $stmt->bindValue($param, $value);
     }
     if (!$stmt->execute()) throw new OperationException('Record creation!');
-    return "Record successfully created!";
+    return 'Record successfully created!';
   }
 
   public function delete(int $id): string
@@ -89,7 +89,7 @@ class RecordRepository implements RecordRepositoryInterface
     $stmt = $this->db->prepare($sql);
     $stmt->bindParam(':id', $id);
     if (!$stmt->execute()) throw new OperationException('Record deletion!');
-    return "Record successfully deleted!";
+    return 'Record successfully deleted!';
   }
 
   public function update(Record $record): string
@@ -107,7 +107,7 @@ class RecordRepository implements RecordRepositoryInterface
       $stmt->bindValue($param, $value);
     }
     if (!$stmt->execute()) throw new OperationException('Record update!');
-    return "Record successfully updated!";
+    return 'Record successfully updated!';
   }
 
   public function getLastInsertedId(): array

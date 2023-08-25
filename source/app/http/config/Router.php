@@ -91,17 +91,17 @@ class Router
           $methods[$httpMethod]['variables']['request'] = $this->request;
           return $methods[$httpMethod];
         }
-        throw new RequestException("Method not allowed!", 405);
+        throw new RequestException('Method not allowed!', 405);
       }
     }
-    throw new RequestException("URL not found!", 404);
+    throw new RequestException('URL not found!', 404);
   }
 
   public function run(): Response
   {
     try {
       $route = $this->getRoute();
-      if (!isset($route['controller'])) throw new RequestException("The URL could not be processed!");
+      if (!isset($route['controller'])) throw new RequestException('The URL could not be processed!');
       $args = [];
       $reflection = new ReflectionFunction($route['controller']);
       foreach ($reflection->getParameters() as $parameter) {
