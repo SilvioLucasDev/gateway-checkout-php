@@ -63,11 +63,11 @@ class RecordController
     if ($method === 'PUT') FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
     $record = Record::update(
       $id,
-      $body['type'] ?? null,
-      $body['message'] ?? null,
-      $body['is_identified'] ?? null,
-      $body['whistleblower_name'] ?? null,
-      $body['whistleblower_birth'] ?? null,
+      $body['type'] ?? $record['type'],
+      $body['message'] ?? $record['message'],
+      $body['is_identified'] ?? $record['is_identified'],
+      $body['whistleblower_name'] ?? $record['whistleblower_name'],
+      $body['whistleblower_birth'] ?? $record['whistleblower_birth'],
     );
     return $this->repository->update($record);
   }
