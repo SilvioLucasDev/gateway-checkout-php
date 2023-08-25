@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\exceptions;
+namespace App\Http\Exceptions;
 
 use Exception;
 
@@ -9,12 +9,12 @@ class RequestException extends Exception
   protected $code = 500;
   protected $message = 'Error in request';
 
-  public function __construct(string $message, int $code = null) {
-    if($message) {
+  public function __construct(string $message, int $code = null)
+  {
+    if ($message) {
       $this->message = 'Error in request: ' . $message;
     }
-
-    if($code) {
+    if ($code) {
       $this->code = $code;
     }
   }

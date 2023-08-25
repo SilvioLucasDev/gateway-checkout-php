@@ -1,9 +1,9 @@
 <?php
 
-namespace App\factories;
+namespace App\Factories;
 
-use App\http\controllers\RecordController;
-use App\infra\repositories\sqlite\RecordRepository;
+use App\Http\Controllers\RecordController;
+use App\Infra\Repositories\SqLite\RecordRepository;
 
 class RecordControllerFactory
 {

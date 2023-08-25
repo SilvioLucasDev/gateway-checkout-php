@@ -1,8 +1,8 @@
 <?php
 
-namespace App\http\config;
+namespace App\Http\Config;
 
-use App\http\exceptions\RequestException;
+use App\Http\Exceptions\RequestException;
 use Closure;
 use Exception;
 use ReflectionFunction;
@@ -82,7 +82,6 @@ class Router
   {
     $uri = $this->getUri();
     $httpMethod = $this->request->getHttpMethod();
-
     foreach ($this->routes as $patternRoute => $methods) {
       if (preg_match($patternRoute, $uri, $matches)) {
         if (isset($methods[$httpMethod])) {
@@ -103,7 +102,7 @@ class Router
     try {
       $route = $this->getRoute();
       if (!isset($route['controller'])) {
-        throw new RequestException("The URL could not be processed");
+        throw new RequestException("The URL could not be processed!");
       }
       $args = [];
       $reflection = new ReflectionFunction($route['controller']);
@@ -113,7 +112,7 @@ class Router
       }
       return call_user_func_array($route['controller'], $args);
     } catch (Exception $e) {
-      return new Response( $e->getMessage(), $e->getCode());
+      return new Response($e->getMessage(), $e->getCode());
     }
   }
 }

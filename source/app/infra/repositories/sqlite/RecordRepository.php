@@ -1,11 +1,11 @@
 <?php
 
-namespace App\infra\repositories\sqlite;
+namespace App\Infra\Repositories\SqLite;
 
-use App\infra\exceptions\OperationException;
-use App\infra\repositories\interfaces\RecordRepositoryInterface;
-use App\infra\repositories\sqlite\helpers\Connection;
-use App\models\Record;
+use App\Infra\Exceptions\OperationException;
+use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
+use App\Infra\Repositories\SqLite\Helpers\Connection;
+use App\Models\Record;
 use DateTime;
 use PDO;
 
@@ -60,7 +60,7 @@ class RecordRepository implements RecordRepositoryInterface
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $result =  $stmt->fetch(PDO::FETCH_ASSOC);
-    if(!$result) {
+    if (!$result) {
       return "Record not found!";
     }
     return $result;
@@ -129,7 +129,8 @@ class RecordRepository implements RecordRepositoryInterface
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  private function throwException(string $message):void {
+  private function throwException(string $message): void
+  {
     throw new OperationException($message, 500);
   }
 }

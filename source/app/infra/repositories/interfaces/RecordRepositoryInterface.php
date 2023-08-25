@@ -1,8 +1,8 @@
 <?php
 
-namespace App\infra\repositories\interfaces;
+namespace App\Infra\Repositories\Interfaces;
 
-use App\models\Record;
+use App\Models\Record;
 
 interface RecordRepositoryInterface
 {

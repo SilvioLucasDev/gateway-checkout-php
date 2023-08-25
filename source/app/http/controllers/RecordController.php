@@ -1,12 +1,12 @@
 <?php
 
-namespace App\http\controllers;
+namespace App\Http\controllers;
 
-use App\http\config\Request;
-use App\http\validations\RequiredNumberValidation;
-use App\http\validations\RequiredValidation;
-use App\infra\repositories\interfaces\RecordRepositoryInterface;
-use App\models\Record;
+use App\Http\Config\Request;
+use App\Http\Validations\RequiredNumberValidation;
+use App\Http\Validations\RequiredValidation;
+use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
+use App\Models\Record;
 
 class RecordController
 {
@@ -52,17 +52,17 @@ class RecordController
   {
     $data = $request->getPostVars();
     $method = $request->getHttpMethod();
-    if($method === 'PUT') {
+    if ($method === 'PUT') {
       RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
     }
     $record = Record::update(
       $id,
       $data['type'] ?? null,
-      $data['message']?? null,
-      $data['is_identified']?? null,
+      $data['message'] ?? null,
+      $data['is_identified'] ?? null,
       $data['whistleblower_name'] ?? null,
       $data['whistleblower_birth'] ?? null,
-      $data['deleted']?? null
+      $data['deleted'] ?? null
     );
     return $this->repository->update($record);
   }

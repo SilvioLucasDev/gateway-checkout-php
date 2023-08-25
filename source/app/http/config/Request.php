@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\config;
+namespace App\Http\Config;
 
 class Request
 {
@@ -14,7 +14,8 @@ class Request
   public function __construct(Router $router)
   {
     $this->router = $router;
-    $this->httpMethod = $_SERVER['REQUEST_METHOD'] ?? '';    $this->queryParams = $_GET ?? [];
+    $this->httpMethod = $_SERVER['REQUEST_METHOD'] ?? '';
+    $this->queryParams = $_GET ?? [];
     $this->postVars = $_POST ?? [];
     $this->headers = getallheaders();
     $this->setUri();

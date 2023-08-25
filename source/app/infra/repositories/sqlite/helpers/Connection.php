@@ -1,8 +1,8 @@
 <?php
 
-namespace App\infra\repositories\sqlite\helpers;
+namespace App\Infra\Repositories\SqLite\Helpers;
 
-use App\infra\exceptions\ConnectionException;
+use App\Infra\Exceptions\ConnectionException;
 use PDO;
 use PDOException;
 
@@ -25,7 +25,7 @@ class Connection
         ]
       );
     } catch (PDOException $e) {
-      throw new ConnectionException( $e->getMessage());
+      throw new ConnectionException($e->getMessage());
     }
   }
 

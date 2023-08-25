@@ -1,8 +1,8 @@
 <?php
 
-namespace App\http\validations;
+namespace App\Http\Validations;
 
-use App\http\exceptions\RequiredFieldError;
+use App\Http\Exceptions\RequiredFieldError;
 
 class RequiredValidation
 {

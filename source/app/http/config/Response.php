@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\config;
+namespace App\Http\Config;
 
 class Response
 {
@@ -33,8 +33,6 @@ class Response
   {
     $this->setHeaders();
     $isError = $this->httpCode !== '200' && $this->httpCode !== '204' ? true : false;
-    echo json_encode(
-      [$isError ? 'error' : 'data' => $this->content]
-    );
+    echo json_encode([$isError ? 'error' : 'data' => $this->content]);
   }
 }
