@@ -3,6 +3,7 @@
 namespace App\Http\controllers;
 
 use App\Http\Config\Request;
+use App\Http\Exceptions\RecordNotFoundException;
 use App\Http\Validations\RequiredNumberValidation;
 use App\Http\Validations\RequiredValidation;
 use App\Infra\Repositories\Interfaces\RecordRepositoryInterface;
@@ -24,7 +25,8 @@ class RecordController
   public function show(int|string $id): array|string
   {
     RequiredNumberValidation::validate(['id' => $id], ['id']);
-    return $this->repository->findById($id);
+    $record = $this->repository->findById($id);
+    return $record ? $record : 'Record not found!';
   }
 
   public function store(Request $request): string
@@ -46,19 +48,19 @@ class RecordController
   public function destroy(int|string $id): string
   {
     RequiredNumberValidation::validate(['id' => $id], ['id']);
-    $this->repository->findById($id);
+    $record = $this->repository->findById($id);
+    if (!$record) throw new RecordNotFoundException();
     return $this->repository->delete($id);
   }
 
   public function update(int|string $id, Request $request): string
   {
     RequiredNumberValidation::validate(['id' => $id], ['id']);
-    $this->repository->findById($id);
+    $record = $this->repository->findById($id);
+    if (!$record) throw new RecordNotFoundException();
     $body = $request->getPostVars();
     $method = $request->getHttpMethod();
-    if ($method === 'PUT') {
-      RequiredValidation::validate($body, ['type', 'message', 'is_identified', 'deleted']);
-    }
+    if ($method === 'PUT') RequiredValidation::validate($body, ['type', 'message', 'is_identified', 'deleted']);
     $record = Record::update(
       $id,
       $body['type'] ?? null,
