@@ -18,7 +18,7 @@ Caso ache a tarefa muito simples e queira implementar algo a mais, será muito b
 # Resposta do participante
 _Responda aqui quais foram suas dificuldades e explique a sua solução_
 
-<br>Estava com dificuldade em utilizar o SQLite; modifiquei a extensão do arquivo para .sqlite.
+Estava com dificuldade em utilizar o SQLite; modifiquei a extensão do arquivo para .sqlite.
 <br>Estava com dificuldade em utilizar o .htaccess; incluí no Dockerfile o comando para habilitar o modo de rewrite do Apache.
 <br>Não consegui modificar o id da tabela registros para AUTO INCREMENT; criei um método no repository que pega o último id e fiz um incremento dentro da model Record.
 <br>Minha maior dificuldade foi desenvolver a configuração de rotas, request e response, pois não estava satisfeito com o que eu conhecia, então decidi aprender novas formas de implementar.
@@ -27,6 +27,14 @@ _Responda aqui quais foram suas dificuldades e explique a sua solução_
 <br>No desenvolvimento, busquei aplicar os princípios de SOLID e Clean Code.
 <br>Utilizei o designer partner Factory para realizar a injeção de dependência do repository na controller.
 <br>Utilizei o designer partner Singleton no helper de conexão com o banco de dados para garantir que a classe tenha somente uma instância.
+
+## Regras de negócios para identificação do denunciante (Criadas por mim, Silvio.)
+<br> **1 -** A identidade do denunciante é opcional ao criar um registro. Se a identidade não for fornecida, o campo `is_identified` deve ser definido como `0`. Se a identidade for fornecida, o campo `is_identified` deve ser definido como 1.
+<br> **2 -** Se o campo `is_identified` for definido como `1`, os campos `whistleblower_name` e `whistleblower_birth` são obrigatórios.
+<br> **3 -** Após a criação do registro, se o usuário desejar associar um denunciante a ele, deve preencher os campos `whistleblower_name` e `whistleblower_birth`, juntamente com o campo `is_identified` definido como `1` para que a operação seja válida.
+<br> **4 -** O usuário tem a opção de desativar a identificação do denunciante definindo `is_identified` como `0`, porém os campos `whistleblower_name` e `whistleblower_birth` devem continuar preenchidos.
+<br> **5 -** O usuário pode reativar a identificação do denunciante definindo `is_identified` como `1`, mantendo os dados anteriores nos campos `whistleblower_name` e `whistleblower_birth`, ou enviando novos dados.
+<br> **6 -** O usuário pode modificar os campos `whistleblower_name` e `whistleblower_birth`, mas a identificação só será válida se o valor de `is_identified` for igual a `1`.
 
 ## Rotas
 
@@ -91,8 +99,6 @@ Rota para atualizar um registro.
     "whistleblower_birth": "String (Opcional)"
   }
 
-- Se is_identified for 1, whistleblower_name e whistleblower_birth são obrigatórios.
-
 ### Atualizar Parcialmente um Registro
 
 Rota para atualizar parcialmente um registro.
@@ -109,6 +115,3 @@ Rota para atualizar parcialmente um registro.
     "whistleblower_birth": "String (Opcional)"
   }
 
-- Se is_identified for 1, whistleblower_name e whistleblower_birth são obrigatórios.
-- Só é possível alterar whistleblower_name se whistleblower_birth estiver definido e is_identified for 1.
-- Só é possível alterar whistleblower_birth se whistleblower_name estiver definido e is_identified for 1.

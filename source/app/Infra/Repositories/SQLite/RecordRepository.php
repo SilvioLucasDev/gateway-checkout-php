@@ -112,11 +112,12 @@ class RecordRepository implements RecordRepositoryInterface
     return 'Record successfully updated!';
   }
 
-  public function getLastInsertedId(): array
+  public function getLastInsertedId(): int
   {
     $sql = 'SELECT max(id) as id FROM registros';
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['id'];
   }
 }

@@ -11,5 +11,5 @@ interface RecordRepositoryInterface
   public function save(Record $record): string;
   public function delete(int $id): string;
   public function update(Record $record): string;
-  public function getLastInsertedId(): array;
+  public function getLastInsertedId(): int;
 }

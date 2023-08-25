@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\controllers;
+namespace App\Http\Controllers;
 
 use App\Http\Config\Request;
 use App\Http\Exceptions\RecordNotFoundException;
@@ -29,12 +29,12 @@ class RecordController
 
   public function store(Request $request): string
   {
-    $lastId = $this->repository->getLastInsertedId();
     $body = $request->getPostVars();
     FieldValidation::isBoolean($body, ['is_identified']);
     FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
+    $lastId = $this->repository->getLastInsertedId();
     $record = Record::create(
-      $lastId['id'],
+      $lastId,
       $body['type'],
       $body['message'],
       $body['is_identified'],
@@ -54,13 +54,13 @@ class RecordController
 
   public function update(int|string $id, Request $request): string
   {
+    $body = $request->getPostVars();
+    $method = $request->getHttpMethod();
+    if ($method === 'PUT') FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
+    FieldValidation::isBoolean($body, ['is_identified']);
     FieldValidation::isNumber(['id' => $id], ['id']);
     $record = $this->repository->findById($id);
     if (!$record) throw new RecordNotFoundException();
-    $body = $request->getPostVars();
-    $method = $request->getHttpMethod();
-    FieldValidation::isBoolean($body, ['is_identified']);
-    if ($method === 'PUT') FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
     $record = Record::update(
       $id,
       $body['type'] ?? $record['type'],
