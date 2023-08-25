@@ -10,35 +10,35 @@ $objRouter->get('/registros', [
   }
 ]);
 
-$objRouter->get('/registro/{id}', [
+$objRouter->get('/registros/{id}', [
   function ($id) {
     $controller = RecordControllerFactory::create();
     return  new Response($controller->show($id));
   }
 ]);
 
-$objRouter->post('/registro', [
+$objRouter->post('/registros', [
   function ($request) {
     $controller = RecordControllerFactory::create();
     return  new Response($controller->store($request));
   }
 ]);
 
-$objRouter->delete('/registro/{id}', [
+$objRouter->delete('/registros/{id}', [
   function ($id) {
     $controller = RecordControllerFactory::create();
     return  new Response($controller->destroy($id));
   }
 ]);
 
-$objRouter->put('/registro/{id}', [
+$objRouter->put('/registros/{id}', [
   function ($id, $request) {
     $controller = RecordControllerFactory::create();
     return  new Response($controller->update($id, $request));
   }
 ]);
 
-$objRouter->patch('/registro/{id}', [
+$objRouter->patch('/registros/{id}', [
   function ($id, $request) {
     $controller = RecordControllerFactory::create();
     return  new Response($controller->update($id, $request));
