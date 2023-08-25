@@ -97,7 +97,7 @@ class RecordRepository implements RecordRepositoryInterface
   public function update(Record $record): string
   {
     foreach ($record as $param => $value) {
-      if (isset($value) && $value !== '') {
+      if (isset($value)) {
         $this->bindings[":$param"] = $value;
         $this->clauses[] = "$param = :$param";
       }

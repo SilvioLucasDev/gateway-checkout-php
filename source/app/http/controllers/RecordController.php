@@ -34,11 +34,6 @@ class RecordController
     $body = $request->getPostVars();
     FieldValidation::isBool($body, ['is_identified']);
     FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
-    if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
-      FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
-    } else {
-      unset($body['whistleblower_name'], $body['whistleblower_birth']);
-    }
     $record = Record::create(
       $lastId['id'],
       $body['type'],
@@ -65,22 +60,8 @@ class RecordController
     if (!$record) throw new RecordNotFoundException();
     $body = $request->getPostVars();
     $method = $request->getHttpMethod();
-    if ($method === 'PUT') {
-      FieldValidation::isBool($body, ['is_identified', 'deleted']);
-      FieldValidation::isRequired($body, ['type', 'message', 'is_identified', 'deleted']);
-      if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
-        FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
-      } else {
-        unset($body['whistleblower_name'], $body['whistleblower_birth']);
-      }
-    }
-    if (isset($body['is_identified'])) {
-      if ($body['is_identified'] === 1 || $body['is_identified'] === '1') {
-        FieldValidation::isRequired($body, ['whistleblower_name', 'whistleblower_birth']);
-      } else {
-        unset($body['whistleblower_name'], $body['whistleblower_birth']);
-      }
-    }
+    FieldValidation::isBool($body, ['is_identified']);
+    if ($method === 'PUT') FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
     $record = Record::update(
       $id,
       $body['type'] ?? null,
@@ -88,7 +69,6 @@ class RecordController
       $body['is_identified'] ?? null,
       $body['whistleblower_name'] ?? null,
       $body['whistleblower_birth'] ?? null,
-      $body['deleted'] ?? null
     );
     return $this->repository->update($record);
   }
