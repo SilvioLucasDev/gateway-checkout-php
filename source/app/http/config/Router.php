@@ -18,10 +18,10 @@ class Router
   {
     $this->request = new Request($this);
     $this->url = $url;
-    $this->serPrefix();
+    $this->setPrefix();
   }
 
-  public function serPrefix(): void
+  public function setPrefix(): void
   {
     $parseUrl = parse_url($this->url);
     $this->prefix = $parseUrl['path'] ?? '';

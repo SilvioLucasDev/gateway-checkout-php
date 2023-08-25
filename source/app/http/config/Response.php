@@ -4,21 +4,16 @@ namespace App\Http\Config;
 
 class Response
 {
-  private string $httpCode;
+  private int   $httpCode;
   private mixed $content;
   private array $headers;
 
-  public function __construct(mixed $content, string $httpCode = '200')
+  public function __construct(mixed $content, int $httpCode = 200)
   {
     $this->httpCode = $httpCode;
     $this->content = $content;
-    $this->addHeader('Content-Type', 'application/json');
-    $this->addHeader('Access-Control-Allow-Origin', '*');
-  }
-
-  public function addHeader(string $key, string $value): void
-  {
-    $this->headers[$key] = $value;
+    $this->headers['Content-Type'] = 'application/json';
+    $this->headers['Access-Control-Allow-Origin'] = '*';
   }
 
   private function setHeaders(): void
@@ -32,7 +27,7 @@ class Response
   public function sendResponse(): void
   {
     $this->setHeaders();
-    $isError = $this->httpCode !== '200' && $this->httpCode !== '204' ? true : false;
+    $isError = ($this->httpCode !== 200 && $this->httpCode !== 204);
     echo json_encode([$isError ? 'error' : 'data' => $this->content]);
   }
 }

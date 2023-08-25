@@ -26,8 +26,8 @@ class Request
   private function setUri(): void
   {
     $this->uri = $_SERVER['REQUEST_URI'] ?? '';
-    $xUri = explode('?', $this->uri);
-    $this->uri = $xUri[0];
+    $pathParts = explode('?', $this->uri);
+    $this->uri = $pathParts[0];
   }
 
   private function setPostVars(): void

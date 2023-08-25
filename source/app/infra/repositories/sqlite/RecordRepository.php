@@ -41,13 +41,15 @@ class RecordRepository implements RecordRepositoryInterface
     }
     if (isset($params['limit']) && is_numeric($params['limit'])) {
       $sql .= ' LIMIT ' . (int)$params['limit'];
-    }
-    if (isset($params['offset']) && is_numeric($params['offset'])) {
-      $sql .= ' OFFSET ' . (int)$params['offset'];
+      if (isset($params['offset']) && is_numeric($params['offset'])) {
+        $sql .= ' OFFSET ' . (int)$params['offset'];
+      }
     }
     $stmt = $this->db->prepare($sql);
-    foreach ($this->bindings as $param => &$value) {
-      $stmt->bindParam($param, $value);
+    if (isset($this->bindings)) {
+      foreach ($this->bindings as $param => &$value) {
+        $stmt->bindParam($param, $value);
+      }
     }
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
