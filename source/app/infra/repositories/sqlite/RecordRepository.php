@@ -26,12 +26,13 @@ class RecordRepository implements RecordRepositoryInterface
   {
     foreach ($params as $param => $value) {
       if (isset($value) && $value !== '') {
-        if ($param !== 'order_by' && $param !== 'limit' && $param !== 'offset') {
+        if (($param !== 'order_by' && $param !== 'limit' && $param !== 'offset') && ($param === 'type' || $param === 'deleted')) {
           $this->bindings[":$param"] = $value;
           $this->clauses[] = "$param = :$param";
         }
       }
     }
+
     $sql = 'SELECT * FROM registros';
     if (!empty($this->clauses))
       $sql .= ' WHERE ' . implode(' AND ', $this->clauses);
@@ -42,6 +43,7 @@ class RecordRepository implements RecordRepositoryInterface
       if (isset($params['offset']) && is_numeric($params['offset']))
         $sql .= ' OFFSET ' . (int)$params['offset'];
     }
+
     $stmt = $this->db->prepare($sql);
     if (isset($this->bindings)) {
       foreach ($this->bindings as $param => &$value) {
