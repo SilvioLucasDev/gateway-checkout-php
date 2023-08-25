@@ -74,8 +74,8 @@ class Router
   private function getUri(): string
   {
     $uri = $this->request->getUri();
-    $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
-    return end($xUri);
+    $uriParts = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
+    return end($uriParts);
   }
 
   private function getRoute(): array

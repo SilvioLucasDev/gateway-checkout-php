@@ -31,7 +31,7 @@ class RecordController
   {
     $lastId = $this->repository->getLastInsertedId();
     $body = $request->getPostVars();
-    FieldValidation::isBool($body, ['is_identified']);
+    FieldValidation::isBoolean($body, ['is_identified']);
     FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
     $record = Record::create(
       $lastId['id'],
@@ -59,7 +59,7 @@ class RecordController
     if (!$record) throw new RecordNotFoundException();
     $body = $request->getPostVars();
     $method = $request->getHttpMethod();
-    FieldValidation::isBool($body, ['is_identified']);
+    FieldValidation::isBoolean($body, ['is_identified']);
     if ($method === 'PUT') FieldValidation::isRequired($body, ['type', 'message', 'is_identified']);
     $record = Record::update(
       $id,

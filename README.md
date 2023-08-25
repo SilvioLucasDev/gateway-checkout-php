@@ -20,16 +20,12 @@ _Responda aqui quais foram suas dificuldades e explique a sua solução_
 Estava com dificuldade em utilizar o SQLite; modifiquei a extensão do arquivo para .sqlite.
 Estava com dificuldade em utilizar o .htaccess; incluí no Dockerfile o comando para habilitar o modo de rewrite do Apache.
 Não consegui modificar o id da tabela registros para AUTO INCREMENT, criei um método no repository que pega o último id e fiz um incremento dentro da model Record.
+Minha mair dificuldade foi desenvolver a configuração de rotas, request e response, Pois mão satisfeito com oque eu conhecia então fui atrás de novas formas de implementar.
+Não fiquei satisfeito com o resultado da model Record, fiquei um pouco limitado ??
 
 
-// -> PENDENTE
-EXPLICAR DEPOIS OQUE EU FIZ DE ADICIONAL NA APLICAÇÃO (OPTEI POR ATUALIZAR O PHP DO docker-compose)
+Atualizei o PHP do docker-compose.yml para o PHP (8.2)
+Optei por desenvolver em PHP mas utilizei o Laravel como referência em alguns momentos.
 
 
-CONTROLLER COM MUITA RESPONSABILIDADE?
-
-
-DomainValidationException("O valor da diária não pode ser menor que R$")
-DELETED NÃO APAGA O CAMPO SÓ MUDA PARA 0
-
-só pode deletar um campo pelo metodo DELETE
+COLOCAR AQUI TODOS OS MÉTODOS CRIADOS

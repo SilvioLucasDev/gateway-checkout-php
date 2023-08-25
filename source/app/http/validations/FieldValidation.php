@@ -32,7 +32,7 @@ class FieldValidation
     }
   }
 
-  public static function isBool(array $data, array $requiredFields): void
+  public static function isBoolean(array $data, array $requiredFields): void
   {
     foreach ($requiredFields as $field) {
       if (isset($data[$field])) {

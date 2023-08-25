@@ -9,13 +9,13 @@ class Record
 {
   public function __construct(
     public int       $id,
-    public ?string    $type,
-    public ?string    $message,
-    public ?int       $is_identified,
-    public ?string    $whistleblower_name,
-    public ?string    $whistleblower_birth,
+    public ?string   $type,
+    public ?string   $message,
+    public ?int      $is_identified,
+    public ?string   $whistleblower_name,
+    public ?string   $whistleblower_birth,
     public ?DateTime $created_at,
-    public ?int       $deleted = 0
+    public int       $deleted = 0
   ) {
     $this->checkWhistleblowerIsIdentified();
   }
@@ -47,7 +47,7 @@ class Record
   private function checkWhistleblowerIsIdentified(): void
   {
     if (isset($this->is_identified)) {
-      if ($this->is_identified === 1 || $this->is_identified === '1') {
+      if ($this->is_identified === 1) {
         if (!isset($this->whistleblower_name)) {
           throw new InvalidRecordDataException("The whistleblower's name must be informed!");
         }
