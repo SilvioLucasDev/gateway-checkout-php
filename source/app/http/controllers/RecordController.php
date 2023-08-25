@@ -30,39 +30,43 @@ class RecordController
   public function store(Request $request): string
   {
     $lastId = $this->repository->getLastInsertedId();
-    $data = $request->getPostVars();
-    RequiredValidation::validate($data, ['type', 'message', 'is_identified']);
+    $body = $request->getPostVars();
+    RequiredValidation::validate($body, ['type', 'message', 'is_identified']);
     $record = Record::create(
       $lastId['id'],
-      $data['type'],
-      $data['message'],
-      $data['is_identified'],
-      $data['whistleblower_name'] ?? null,
-      $data['whistleblower_birth'] ?? null
+      $body['type'],
+      $body['message'],
+      $body['is_identified'],
+      $body['whistleblower_name'] ?? null,
+      $body['whistleblower_birth'] ?? null
     );
     return $this->repository->save($record);
   }
 
-  public function destroy(int $id): string
+  public function destroy(int|string $id): string
   {
+    RequiredNumberValidation::validate(['id' => $id], ['id']);
+    $this->repository->findById($id);
     return $this->repository->delete($id);
   }
 
-  public function update(int $id, Request $request): string
+  public function update(int|string $id, Request $request): string
   {
-    $data = $request->getPostVars();
+    RequiredNumberValidation::validate(['id' => $id], ['id']);
+    $this->repository->findById($id);
+    $body = $request->getPostVars();
     $method = $request->getHttpMethod();
     if ($method === 'PUT') {
-      RequiredValidation::validate($data, ['type', 'message', 'is_identified', 'deleted']);
+      RequiredValidation::validate($body, ['type', 'message', 'is_identified', 'deleted']);
     }
     $record = Record::update(
       $id,
-      $data['type'] ?? null,
-      $data['message'] ?? null,
-      $data['is_identified'] ?? null,
-      $data['whistleblower_name'] ?? null,
-      $data['whistleblower_birth'] ?? null,
-      $data['deleted'] ?? null
+      $body['type'] ?? null,
+      $body['message'] ?? null,
+      $body['is_identified'] ?? null,
+      $body['whistleblower_name'] ?? null,
+      $body['whistleblower_birth'] ?? null,
+      $body['deleted'] ?? null
     );
     return $this->repository->update($record);
   }
