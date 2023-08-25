@@ -61,6 +61,11 @@ class Router
     return $this->addRoute('PUT', $route, $params);
   }
 
+  public function patch(string $route, array $params = []): mixed
+  {
+    return $this->addRoute('PATCH', $route, $params);
+  }
+
   public function delete(string $route, array $params = []): mixed
   {
     return $this->addRoute('DELETE', $route, $params);
