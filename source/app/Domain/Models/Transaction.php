@@ -5,7 +5,7 @@ namespace App\Domain\Models;
 use App\Domain\Exceptions\InvalidRecordDataException;
 use DateTime;
 
-class Record
+class Transaction
 {
   public function __construct(
     public int       $id,
@@ -27,10 +27,10 @@ class Record
     int     $is_identified,
     ?string $whistleblower_name,
     ?string $whistleblower_birth
-  ): Record {
+  ): Transaction {
     $id = $id + 1;
     $created_at = new DateTime();
-    return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $created_at);
+    return new Transaction($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, $created_at);
   }
 
   public static function update(
@@ -40,8 +40,8 @@ class Record
     int    $is_identified,
     ?string $whistleblower_name,
     ?string $whistleblower_birth,
-  ): Record {
-    return new Record($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, null);
+  ): Transaction {
+    return new Transaction($id, $type, $message, $is_identified, $whistleblower_name, $whistleblower_birth, null);
   }
 
   private function checkIdentifiedIsTrue(): void

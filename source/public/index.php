@@ -7,6 +7,6 @@ use App\http\config\Router;
 
 $objRouter = new Router(URL);
 
-include __DIR__ . '/../routes/record.php';
+include __DIR__ . '/../routes/payment.php';
 
 $objRouter->run()->sendResponse();
