@@ -5,7 +5,6 @@ namespace App\Infra\Repositories\SQLite;
 use App\Infra\Exceptions\OperationException;
 use App\Infra\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Infra\Repositories\SQLite\Helpers\Connection;
-use App\Domain\Models\Transaction;
 use DateTime;
 use PDO;
 
@@ -22,8 +21,6 @@ class TransactionRepository implements TransactionRepositoryInterface
     $this->db = Connection::getInstance();
   }
 
-  //TALVEZ N VAI USAR ISSO AQUI
-  //TALVEZ SÓ IREI GRAVAR NA BASE QUANDO O PAGAMENTO FOR CONCLUÍDO AIN VOU PRECISA DO UPDATE TBM
   public function findById(int $id): array|string
   {
     $sql = 'SELECT * FROM transactions WHERE id = :id';
@@ -33,7 +30,7 @@ class TransactionRepository implements TransactionRepositoryInterface
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function save(Transaction $transaction): string
+  public function save(array $transaction): string
   {
     foreach ($transaction as $param => $value) {
       if (isset($value)) {
@@ -55,7 +52,7 @@ class TransactionRepository implements TransactionRepositoryInterface
     return 'Transaction successfully created!';
   }
 
-  public function update(Transaction $transaction): string
+  public function update(array $transaction): string
   {
     foreach ($transaction as $param => $value) {
       if (isset($value)) {
@@ -64,7 +61,7 @@ class TransactionRepository implements TransactionRepositoryInterface
       }
     }
     $sql = 'UPDATE transactions SET ';
-    $sql .= implode(', ', $this->clauses) . ' WHERE id = :id';
+    $sql .= implode(', ', $this->clauses) . ' WHERE transaction_id = :transaction_id';
     $stmt = $this->db->prepare($sql);
     foreach ($this->bindings as $param => &$value) {
       $stmt->bindValue($param, $value);

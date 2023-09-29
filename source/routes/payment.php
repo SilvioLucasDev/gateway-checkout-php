@@ -10,7 +10,7 @@ $objRouter->post('/purchase/products/{id}', [
   }
 ]);
 
-$objRouter->post('/webhook/asaas/payments', [
+$objRouter->post('/asaas/process-payments', [
   function ($request) {
     $controller = PaymentControllerFactory::create();
     return  new Response($controller->webhook($request));

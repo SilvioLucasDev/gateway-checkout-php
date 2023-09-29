@@ -9,6 +9,7 @@ class PaymentControllerFactory
   public static function create(): PaymentController
   {
     $checkoutService = CheckoutServiceFactory::create();
-    return new PaymentController($checkoutService);
+    $asaasWebHookService = AsaasWebHookServiceFactory::create();
+    return new PaymentController($checkoutService, $asaasWebHookService);
   }
 }

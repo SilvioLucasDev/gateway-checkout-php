@@ -14,7 +14,7 @@ class CheckoutService
   ) {
   }
 
-  public function checkout(string $productId, string $paymentType): array
+  public function getLink(string $productId, string $paymentType): array
   {
     $product = $this->productRepository->findById($productId);
     if (!$product) throw new ProductNotFoundException();
